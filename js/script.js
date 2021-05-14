@@ -34,9 +34,22 @@ const gameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function() {
-        // Do Something...
         cancelAnimationFrame(animation);
     }
+}
+
+function updateScore() {
+    if (gameArea.frameNo % 130 === 125 && gameArea.frameNo > 125) {
+        gameArea.score++;
+    }
+
+    if (gameArea.score > highScore) {
+        highScore = gameArea.score;
+        localStorage.setItem('flappyBirdScore', highScore);
+    }
+
+    newScore.text = gameArea.score;
+    newScore.update();
 }
 
 function updateGameArea() {
@@ -47,13 +60,12 @@ function updateGameArea() {
         if (bird.birdPipeCollision(pipes[i])) {
             gameArea.stop();
             gameOver();
-            // return;
-            // Get the bird to flow below
         }
     }
 
     gameArea.clear();
     gameArea.frameNo += 1;
+    // Pipes will generate every 130th frame.
     if (gameArea.frameNo % 130 === 0) {
         x = gameArea.canvas.width;
         cH = gameArea.canvas.height;
@@ -70,6 +82,7 @@ function updateGameArea() {
         pipes[i].x -= pipeSpeed;
         pipes[i].update();
 
+        // remove the pipes if they go off-screen to free-up array
         if (pipes[i].offScreen()) {
             pipes.splice(i, 1);
         }
@@ -79,27 +92,18 @@ function updateGameArea() {
         bird.upForce();
     }
 
-    // Logic for score - all of them can go on a different function
-    if (gameArea.frameNo % 130 === 125 && gameArea.frameNo > 125) {
-        gameArea.score++;
-    }
-
-    if (gameArea.score > highScore) {
-        highScore = gameArea.score;
-        localStorage.setItem('flappyBirdScore', highScore);
-    }
-
-    newScore.text = gameArea.score;
-    newScore.update();
+    // updates the score and if its high score, adds it to local storage
+    updateScore();
 }
 
-
+// Game initializer
 function init() {
     pipes = [];
     gameArea.start();
     bird = new GameComponent(200, gameArea.canvas.height / 2, 50, 34,'', 'bird');
     newScore = new GameComponent(20, 70, '60px', 'Verdana', '#F7F7F7', 'text');
 }
+
 
 function animate() {
     animation = requestAnimationFrame(animate);
@@ -109,13 +113,13 @@ function animate() {
     bird.update();
 }
 
-
+// Start the game
 startScreenImage.addEventListener('click', () => {
     startScreen.classList.add('hide');
     animate();
 });
 
-
+// End the game
 restartButton.addEventListener('click', () => {
     gameArea.clear();
     gameOverScreen.classList.add('hide');
@@ -123,7 +127,7 @@ restartButton.addEventListener('click', () => {
     animate();
 });
 
-
+// Handle game over condition
 function gameOver() {
     gameOverScreen.classList.remove('hide');
     currentScore.innerHTML = "SCORE <br>" + gameArea.score;

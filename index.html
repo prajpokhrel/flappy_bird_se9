@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+        <title>Flappy Bird - Prajwal Pokhrel - SE9</title>
+    </head>
+    <body>
+
+
+    <div class="main-container">
+        <!-- Start Screen -->
+        <div class="start-screen">
+            <img class="start-screen-image" src="images/message.png" alt="start message" />
+        </div>
+        <!-- Game Over Screen -->
+        <div class="game-over-screen hide">
+            <img class="game-over-image" src="images/gameover.png" alt="start message" />
+            <div class="score-card">
+                <h3 class="current-score"></h3><br>
+                <h3 class="best-score"></h3>
+            </div>
+            <button class="restart-button">RESTART</button>
+        </div>
+
+        <canvas></canvas>
+
+        <div class="instruction-box">
+            <h1>Flappy Bird</h1><br>
+            <p>
+                Play flappy bird here offline for free. Click on <b>GET READY</b> on your screen
+                whenever you are good to play. Use <b>SPACE BAR</b> to fly the bird. The goal is to fly the bird as far as
+                you can without hitting the pipe.
+            </p>
+            <br>
+            <p>Site and HTML5 game created by <b>Prajwal Pokhrel</b>.</p>
+        </div>
+    </div>
+
+
+    <script src="js/helperFunctions.js"></script>
+    <script src="js/GameComponent.js"></script>
+    <script src="js/script.js"></script>
+    </body>
+</html>
